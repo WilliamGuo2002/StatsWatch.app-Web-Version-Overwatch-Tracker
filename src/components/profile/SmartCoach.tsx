@@ -63,7 +63,7 @@ const RANK_COLORS: Record<string, string> = {
   Platinum: 'text-cyan-400',
   Diamond: 'text-blue-400',
   Master: 'text-purple-400',
-  Grandmaster: 'text-orange-400',
+  Gm: 'text-orange-400',
 };
 
 export default function SmartCoach({ stats, heroes }: Props) {
@@ -72,7 +72,7 @@ export default function SmartCoach({ stats, heroes }: Props) {
   const roles = stats.roles || {};
   const queueRec = getQueueRecommendation(roles);
   const heroPool = analyzeHeroPool(heroes);
-  const tips = getPersonalizedTips(stats);
+  const tips = getPersonalizedTips(stats, null, heroes);
 
   const rankEstimates = ['tank', 'damage', 'support'].map(role => ({
     role,
@@ -183,13 +183,13 @@ export default function SmartCoach({ stats, heroes }: Props) {
                   fill="none"
                   stroke="#f97316"
                   strokeWidth="3"
-                  strokeDasharray={`${heroPool.diversityScore * 100} ${100 - heroPool.diversityScore * 100}`}
+                  strokeDasharray={`${heroPool.diversityScore} ${100 - heroPool.diversityScore}`}
                   strokeLinecap="round"
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-xs font-bold text-ow-text">
-                  {(heroPool.diversityScore * 100).toFixed(0)}%
+                  {heroPool.diversityScore.toFixed(0)}%
                 </span>
               </div>
             </div>
@@ -200,6 +200,30 @@ export default function SmartCoach({ stats, heroes }: Props) {
               <p className="text-ow-support">{t('{{count}} Supports', { count: heroPool.supportCount })}</p>
             </div>
           </div>
+
+          {/* Diversity label */}
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-ow-text-muted">{t('Pool Diversity')}:</span>
+            <span className={`text-[11px] font-semibold ${
+              heroPool.diversityLabel === 'Versatile' ? 'text-green-400' :
+              heroPool.diversityLabel === 'Moderate' ? 'text-orange-400' : 'text-red-400'
+            }`}>
+              {t(heroPool.diversityLabel)}
+            </span>
+          </div>
+
+          {/* Subroles */}
+          {Object.keys(heroPool.subroles).length > 0 && (
+            <div className="space-y-1.5">
+              <span className="text-[11px] text-ow-text-muted">{t('Subroles')}</span>
+              {Object.entries(heroPool.subroles).map(([subroleName, heroKeys]) => (
+                <div key={subroleName} className="flex items-center gap-2">
+                  <span className="text-[11px] text-ow-text-secondary">{subroleName}:</span>
+                  <span className="text-[11px] text-ow-text">{heroKeys.join(', ')}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Warnings */}
           {heroPool.warnings.length > 0 && (

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { getMaps } from '../../api/overwatchApi';
-import type { MapInfo } from '../../types/models';
+import { getMaps, getGamemodes } from '../../api/overwatchApi';
+import type { MapInfo, GamemodeInfo } from '../../types/models';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ErrorMessage from '../common/ErrorMessage';
 
@@ -44,13 +44,21 @@ function MapCard({ map, onClick }: { map: MapInfo; onClick: () => void }) {
   );
 }
 
-function MapDetailModal({ map, onClose }: { map: MapInfo; onClose: () => void }) {
+function MapDetailModal({
+  map,
+  onClose,
+  gamemodeInfoList,
+}: {
+  map: MapInfo;
+  onClose: () => void;
+  gamemodeInfoList: GamemodeInfo[];
+}) {
   const { t } = useTranslation();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70" onClick={onClose}>
       <div
-        className="bg-ow-card border border-ow-border rounded-xl max-w-lg w-full overflow-hidden"
+        className="bg-ow-card border border-ow-border rounded-xl max-w-lg w-full overflow-hidden max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">
@@ -82,12 +90,27 @@ function MapDetailModal({ map, onClose }: { map: MapInfo; onClose: () => void })
 
           <div>
             <h3 className="text-sm font-semibold text-ow-text mb-2">{t('Game Modes')}</h3>
-            <div className="flex flex-wrap gap-2">
-              {map.gamemodes.map((gm) => (
-                <span key={gm} className="px-3 py-1 bg-ow-darker rounded-full text-xs text-ow-text-secondary capitalize">
-                  {gm.replace(/-/g, ' ')}
-                </span>
-              ))}
+            <div className="space-y-3">
+              {map.gamemodes.map((gmKey) => {
+                const gmInfo = gamemodeInfoList.find((g) => g.key === gmKey);
+                return (
+                  <div key={gmKey} className="bg-ow-darker rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      {gmInfo?.icon && (
+                        <img src={gmInfo.icon} alt="" className="w-5 h-5" />
+                      )}
+                      <span className="text-sm font-medium text-ow-text capitalize">
+                        {gmInfo?.name || gmKey.replace(/-/g, ' ')}
+                      </span>
+                    </div>
+                    {gmInfo?.description && (
+                      <p className="text-xs text-ow-text-muted leading-relaxed">
+                        {gmInfo.description}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -104,6 +127,12 @@ export default function MapGalleryPage() {
   const { data: maps, isLoading, error, refetch } = useQuery({
     queryKey: ['maps'],
     queryFn: getMaps,
+  });
+
+  const { data: gamemodeInfoList = [] } = useQuery({
+    queryKey: ['gamemodes'],
+    queryFn: getGamemodes,
+    staleTime: 1000 * 60 * 60,
   });
 
   if (isLoading) return <LoadingSpinner text={t('Loading maps...')} />;
@@ -163,7 +192,13 @@ export default function MapGalleryPage() {
       )}
 
       {/* Detail Modal */}
-      {selectedMap && <MapDetailModal map={selectedMap} onClose={() => setSelectedMap(null)} />}
+      {selectedMap && (
+        <MapDetailModal
+          map={selectedMap}
+          onClose={() => setSelectedMap(null)}
+          gamemodeInfoList={gamemodeInfoList}
+        />
+      )}
     </div>
   );
 }

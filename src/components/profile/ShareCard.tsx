@@ -48,6 +48,7 @@ export default function ShareCard({ summary, stats, topHeroes, heroInfoList, gam
     { key: 'Tank', rank: ranks?.tank },
     { key: 'DPS', rank: ranks?.damage },
     { key: 'Sup', rank: ranks?.support },
+    { key: '6v6', rank: ranks?.open },
   ].filter(r => r.rank);
 
   return (
@@ -159,6 +160,32 @@ export default function ShareCard({ summary, stats, topHeroes, heroInfoList, gam
                   {formatTimePlayed(general.time_played)}
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Per-10 stats row (aligned with iOS) */}
+          {general && (
+            <div style={{ display: 'flex', gap: 6, marginBottom: 16 }}>
+              {[
+                { label: 'Elims/10', value: general.average.eliminations.toFixed(1) },
+                { label: 'Deaths/10', value: general.average.deaths.toFixed(1) },
+                { label: 'Dmg/10', value: Math.round(general.average.damage).toLocaleString() },
+                { label: 'Heal/10', value: Math.round(general.average.healing).toLocaleString() },
+              ].map(({ label, value }) => (
+                <div
+                  key={label}
+                  style={{
+                    flex: 1,
+                    background: '#1f2937',
+                    borderRadius: 8,
+                    padding: '6px 4px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div style={{ fontSize: 9, color: '#9ca3af' }}>{label}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600 }}>{value}</div>
+                </div>
+              ))}
             </div>
           )}
 

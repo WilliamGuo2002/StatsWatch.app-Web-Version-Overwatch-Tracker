@@ -13,6 +13,7 @@ import ProgressTrackingPage from './components/progress/ProgressTrackingPage';
 import SessionTrackerPage from './components/progress/SessionTrackerPage';
 import MapGalleryPage from './components/explore/MapGalleryPage';
 import GamemodesPage from './components/explore/GamemodesPage';
+import AboutPage from './components/about/AboutPage';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/meta" element={<HeroMetaPage />} />
           <Route path="/maps" element={<MapGalleryPage />} />
           <Route path="/gamemodes" element={<GamemodesPage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </main>
       <Footer />

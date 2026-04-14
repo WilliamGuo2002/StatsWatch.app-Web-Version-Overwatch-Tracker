@@ -140,7 +140,8 @@ export default function SearchPage() {
               {t('Tips')}
             </h3>
             <ul className="text-xs text-ow-text-muted space-y-1.5">
-              <li>{t('Enter a full BattleTag (e.g. Player#1234) for direct profile lookup')}</li>
+              <li>{t('Enter the full BattleTag (Name#1234) for direct lookup')}</li>
+              <li>{t('BattleTag is case-sensitive')}</li>
               <li>{t('Search by name to browse matching players')}</li>
               <li>{t('Player profiles must be set to public in Overwatch 2 settings')}</li>
             </ul>
