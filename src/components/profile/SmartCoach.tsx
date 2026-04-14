@@ -11,6 +11,7 @@ import {
 interface Props {
   stats: PlayerStatsSummary;
   heroes: Record<string, HeroStatEntry>;
+  selectedRole?: string | null;
 }
 
 function ExpandableCard({
@@ -66,13 +67,13 @@ const RANK_COLORS: Record<string, string> = {
   Gm: 'text-orange-400',
 };
 
-export default function SmartCoach({ stats, heroes }: Props) {
+export default function SmartCoach({ stats, heroes, selectedRole }: Props) {
   const { t } = useTranslation();
 
   const roles = stats.roles || {};
   const queueRec = getQueueRecommendation(roles);
-  const heroPool = analyzeHeroPool(heroes);
-  const tips = getPersonalizedTips(stats, null, heroes);
+  const heroPool = analyzeHeroPool(heroes, selectedRole);
+  const tips = getPersonalizedTips(stats, selectedRole, heroes);
 
   const rankEstimates = ['tank', 'damage', 'support'].map(role => ({
     role,

@@ -8,13 +8,14 @@ interface Props {
 }
 
 const TRAIT_COLORS: Record<string, string> = {
-  'High Elims': 'bg-red-500/20 text-red-400 border-red-500/30',
-  'High Damage': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-  'Strong Healing': 'bg-green-500/20 text-green-400 border-green-500/30',
-  'Great Survival': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  'Efficient KDA': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-  'Winning Record': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  'Team Player': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+  'High Aggression': 'bg-red-500/20 text-red-400 border-red-500/30',
+  'Passive Playstyle': 'bg-slate-500/20 text-slate-400 border-slate-500/30',
+  'Hard to Kill': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+  'Risk Taker': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+  'Frag Hunter': 'bg-red-500/20 text-red-400 border-red-500/30',
+  'DPS Monster': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+  'One-Trick Specialist': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  'High Impact': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
 };
 
 const DEFAULT_TRAIT = 'bg-ow-border text-ow-text-secondary border-ow-border';

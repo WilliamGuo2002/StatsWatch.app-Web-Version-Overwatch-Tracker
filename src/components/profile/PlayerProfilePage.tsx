@@ -37,11 +37,13 @@ import TopHeroes from './TopHeroes';
 import HeroTierList from './HeroTierList';
 import SmartCoach from './SmartCoach';
 import ShareCard from './ShareCard';
+import RoleSelector from './RoleSelector';
 
 export default function PlayerProfilePage() {
   const { playerId } = useParams<{ playerId: string }>();
   const { t } = useTranslation();
   const [gamemode, setGamemode] = useState<GameMode>('competitive');
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
   const { addToHistory } = useSearchHistory();
@@ -122,11 +124,11 @@ export default function PlayerProfilePage() {
   const allHeroes = useMemo(() => getAllHeroesSorted(heroes), [heroes]);
   const tiers = useMemo(() => calculateHeroTiers(heroes), [heroes]);
   const playStyle = useMemo(
-    () => classifyPlayStyle(statsData || {}, heroes),
-    [statsData, heroes]
+    () => classifyPlayStyle(statsData || {}, heroes, selectedRole),
+    [statsData, heroes, selectedRole]
   );
-  const radarData = useMemo(() => getRadarData(statsData || {}, null), [statsData]);
-  const radarMedian = useMemo(() => getRadarMedianData(null), []);
+  const radarData = useMemo(() => getRadarData(statsData || {}, selectedRole), [statsData, selectedRole]);
+  const radarMedian = useMemo(() => getRadarMedianData(selectedRole), [selectedRole]);
 
   const signaturePortrait = useMemo(() => {
     if (!playStyle.signatureHero) return undefined;
@@ -228,17 +230,23 @@ export default function PlayerProfilePage() {
       <GameModeToggle mode={gamemode} onChange={setGamemode} />
 
       {/* 4. Stats Overview */}
-      <StatsOverview stats={statsData} />
+      <StatsOverview stats={statsData} selectedRole={selectedRole} />
 
       {/* 5. Role Stats */}
       {Object.keys(roles).length > 0 && <RoleStats roles={roles} />}
 
-      {/* 6. Radar Chart */}
+      {/* 6. Role Selector + Radar Chart */}
+      <RoleSelector selectedRole={selectedRole} onChange={setSelectedRole} />
       <RadarChart
         data={radarData}
         medianData={radarMedian}
         labels={RADAR_LABELS}
         title={t('Performance Radar')}
+        accentColor={
+          selectedRole === 'tank' ? '#3b82f6' :
+          selectedRole === 'damage' ? '#ef4444' :
+          selectedRole === 'support' ? '#22c55e' : '#f97316'
+        }
       />
 
       {/* 7. Play Style Card */}
@@ -258,7 +266,7 @@ export default function PlayerProfilePage() {
       <HeroTierList tiers={tiers} heroInfoList={heroInfoList} />
 
       {/* 10. Smart Coach */}
-      <SmartCoach stats={statsData} heroes={heroes} />
+      <SmartCoach stats={statsData} heroes={heroes} selectedRole={selectedRole} />
 
       {/* 11. Navigation Links */}
       <div className="grid grid-cols-2 gap-2">

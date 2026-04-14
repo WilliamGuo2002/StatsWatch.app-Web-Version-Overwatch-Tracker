@@ -7,6 +7,7 @@ interface Props {
   title?: string;
   secondData?: number[];
   secondLabel?: string;
+  accentColor?: string;
 }
 
 const cx = 140;
@@ -41,6 +42,7 @@ export default function RadarChart({
   title,
   secondData,
   secondLabel,
+  accentColor = '#f97316',
 }: Props) {
   const { t } = useTranslation();
 
@@ -53,8 +55,8 @@ export default function RadarChart({
       <svg viewBox="0 0 280 280" className="w-full max-w-[280px] mx-auto">
         <defs>
           <linearGradient id="radarGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#f97316" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#f97316" stopOpacity="0.1" />
+            <stop offset="0%" stopColor={accentColor} stopOpacity="0.4" />
+            <stop offset="100%" stopColor={accentColor} stopOpacity="0.1" />
           </linearGradient>
           <linearGradient id="radarGradientBlue" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
@@ -119,7 +121,7 @@ export default function RadarChart({
         <polygon
           points={polygonPoints(data)}
           fill="url(#radarGradient)"
-          stroke="#f97316"
+          stroke={accentColor}
           strokeWidth="2"
         />
 
@@ -132,7 +134,7 @@ export default function RadarChart({
               cx={pt.x}
               cy={pt.y}
               r="3"
-              fill="#f97316"
+              fill={accentColor}
               stroke="#0a0e1a"
               strokeWidth="1"
             />
@@ -160,7 +162,7 @@ export default function RadarChart({
       {/* Legend */}
       <div className="flex items-center justify-center gap-4 mt-2">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-1 rounded bg-ow-orange" />
+          <div className="w-3 h-1 rounded" style={{ backgroundColor: accentColor }} />
           <span className="text-[10px] text-ow-text-secondary">{t('You')}</span>
         </div>
         <div className="flex items-center gap-1.5">

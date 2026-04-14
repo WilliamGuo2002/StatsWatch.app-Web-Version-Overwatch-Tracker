@@ -10,15 +10,21 @@ import {
 
 interface Props {
   stats: PlayerStatsSummary;
+  selectedRole?: string | null;
 }
 
-export default function StatsOverview({ stats }: Props) {
+export default function StatsOverview({ stats, selectedRole }: Props) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
-  const general = stats.general;
 
-  if (!general) return null;
+  // Use role-specific data if a role is selected, otherwise general
+  const roleData = selectedRole && stats.roles?.[selectedRole]
+    ? stats.roles[selectedRole]
+    : stats.general;
 
+  if (!roleData) return null;
+
+  const general = roleData;
   const winRate = general.winrate;
   const gamesWon = general.games_won;
   const gamesPlayed = general.games_played;
