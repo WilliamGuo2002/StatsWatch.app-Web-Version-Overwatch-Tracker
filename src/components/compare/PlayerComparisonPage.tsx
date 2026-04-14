@@ -180,7 +180,7 @@ export default function PlayerComparisonPage() {
   const compareRows: CompareRow[] =
     genA && genB
       ? [
-          { label: t('Win Rate'), valueA: genA.winrate * 100, valueB: genB.winrate * 100, format: (v) => `${v.toFixed(1)}%` },
+          { label: t('Win Rate'), valueA: genA.winrate, valueB: genB.winrate, format: (v) => `${v.toFixed(1)}%` },
           { label: t('KDA'), valueA: genA.kda, valueB: genB.kda, format: (v) => formatStat(v) },
           { label: t('Games'), valueA: genA.games_played, valueB: genB.games_played, format: (v) => v.toFixed(0) },
           { label: t('Elims/10'), valueA: genA.average.eliminations, valueB: genB.average.eliminations, format: (v) => formatStat(v) },

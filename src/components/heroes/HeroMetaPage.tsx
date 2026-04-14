@@ -153,13 +153,13 @@ export default function HeroMetaPage() {
                 <div className="text-right">
                   <p className="text-xs text-ow-text-muted">{t('Pick')}</p>
                   <p className={`text-sm font-semibold ${sortBy === 'pickrate' ? 'text-ow-orange' : 'text-ow-text-secondary'}`}>
-                    {formatPercent(stat.pickrate / 100)}
+                    {formatPercent(stat.pickrate)}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-ow-text-muted">{t('Win')}</p>
                   <p className={`text-sm font-semibold ${sortBy === 'winrate' ? 'text-ow-orange' : 'text-ow-text-secondary'}`}>
-                    {formatPercent(stat.winrate / 100)}
+                    {formatPercent(stat.winrate)}
                   </p>
                 </div>
               </div>

@@ -182,9 +182,9 @@ export function classifyPlayStyle(
   // Subtitle based on performance (aligned with iOS)
   if (selectedRole) {
     const roleLabel = selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
-    if (winrate >= 0.55 && gamesPlayed >= 20) {
+    if (winrate >= 55 && gamesPlayed >= 20) {
       subtitle = `Dominating as ${roleLabel} — a proven winner`;
-    } else if (winrate >= 0.50) {
+    } else if (winrate >= 50) {
       subtitle = `Solid ${roleLabel} performance — holding your own`;
     } else if (gamesPlayed < 10) {
       subtitle = `Still building your ${roleLabel} experience`;
@@ -192,9 +192,9 @@ export function classifyPlayStyle(
       subtitle = `Room to grow as ${roleLabel}`;
     }
   } else {
-    if (winrate >= 0.55 && gamesPlayed >= 50) {
+    if (winrate >= 55 && gamesPlayed >= 50) {
       subtitle = 'A proven winner with a dominant track record';
-    } else if (winrate >= 0.50) {
+    } else if (winrate >= 50) {
       subtitle = 'Consistent performer who holds their own';
     } else if (gamesPlayed < 20) {
       subtitle = 'Still finding your stride — keep going!';
@@ -220,7 +220,7 @@ export function classifyPlayStyle(
 
   // Insights
   if (deaths > highDeathThreshold) insights.push('Consider positioning more carefully to reduce deaths');
-  if (winrate < 0.45) insights.push('Focus on teamwork and coordination to improve win rate');
+  if (winrate < 45) insights.push('Focus on teamwork and coordination to improve win rate');
   if (kda < 2) insights.push('Try to get more value before dying — trade kills at minimum');
   if (damage > 12000 && healing < 1000 && effectiveRole !== 'support')
     insights.push('Strong damage output — keep up the pressure');
@@ -433,7 +433,7 @@ export function getPersonalizedTips(
   const damage = roleData.average.damage;
   const healing = roleData.average.healing;
   const assists = roleData.average.assists;
-  const wr = roleData.winrate * 100;
+  const wr = roleData.winrate;
   const kda = roleData.kda;
 
   // Role-specific death thresholds

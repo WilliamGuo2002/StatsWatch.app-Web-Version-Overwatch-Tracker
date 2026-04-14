@@ -147,11 +147,11 @@ function HeroDetailPanel({ heroKey }: { heroKey: string }) {
         <div className="flex justify-center gap-4">
           <div className="bg-ow-darker rounded-lg px-4 py-2 text-center">
             <p className="text-xs text-ow-text-muted">{t('Win Rate')}</p>
-            <p className="text-lg font-bold text-ow-orange">{formatPercent(heroGlobal.winrate / 100)}</p>
+            <p className="text-lg font-bold text-ow-orange">{formatPercent(heroGlobal.winrate)}</p>
           </div>
           <div className="bg-ow-darker rounded-lg px-4 py-2 text-center">
             <p className="text-xs text-ow-text-muted">{t('Pick Rate')}</p>
-            <p className="text-lg font-bold text-ow-blue-light">{formatPercent(heroGlobal.pickrate / 100)}</p>
+            <p className="text-lg font-bold text-ow-blue-light">{formatPercent(heroGlobal.pickrate)}</p>
           </div>
         </div>
       )}

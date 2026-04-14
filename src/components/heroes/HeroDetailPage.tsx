@@ -223,7 +223,7 @@ export default function HeroDetailPage() {
             <span className="flex items-center gap-1"><span className="w-3 h-1.5 bg-ow-blue rounded" /> {t('Overall')}</span>
           </div>
           <div className="space-y-4">
-            <ComparisonBar label={t('Win Rate')} heroValue={heroStats.winrate * 100} overallValue={generalStats.winrate * 100} unit="%" />
+            <ComparisonBar label={t('Win Rate')} heroValue={heroStats.winrate} overallValue={generalStats.winrate} unit="%" />
             <ComparisonBar label={t('KDA')} heroValue={heroStats.kda} overallValue={generalStats.kda} />
             <ComparisonBar label={t('Elims/10')} heroValue={heroStats.average.eliminations} overallValue={generalStats.average.eliminations} />
             <ComparisonBar label={t('Deaths/10')} heroValue={heroStats.average.deaths} overallValue={generalStats.average.deaths} />
